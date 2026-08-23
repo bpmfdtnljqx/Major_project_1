@@ -1,6 +1,6 @@
 import requests
 import re
-from settings import TIME_OUT
+from crawler.settings import TIME_OUT
 
 def get_lyric(Lyric_url):
     """得到原始歌词"""
