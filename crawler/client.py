@@ -7,6 +7,7 @@ from crawler.settings import(
 )
 
 def get_songs(keyword, page):
+    """从网站得到歌曲"""
     #请求参数
     Params={
         "text": keyword,
