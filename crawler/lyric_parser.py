@@ -1,9 +1,11 @@
 import requests
 import re
+from settings import TIME_OUT
 
 def get_lyric(Lyric_url):
     """得到原始歌词"""
-    response = requests.get(Lyric_url)
+    response = requests.get(Lyric_url,timeout=TIME_OUT)
+    response.raise_for_status()
     lyric_text=response.text
     return lyric_text
 

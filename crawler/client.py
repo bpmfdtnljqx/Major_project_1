@@ -23,5 +23,5 @@ def get_songs(keyword, page):
     )
 
     response.raise_for_status()
-
+    
     return response.json()
