@@ -1,6 +1,7 @@
 from crawler.client import get_songs
 from crawler.parser import parse_song
 from crawler.lyric_parser import get_lyric, clean_lyric
+from crawler.saver import save_json
 import random
 import time
 
@@ -24,12 +25,18 @@ for song in songs:
 
     result_song.append(song_data)
     print("成功获取",song_data["song_name"])
+    if len(result_song)%50 == 0:
+        save_json(result_song, "data/raw/songs.json")  
 
     artist_id=artist_data["artist_id"]
     if artist_id not in result_artist:
         result_artist[artist_id] = artist_data
         print("成功获取",artist_data["artist_name"])
-        
+        save_json(result_artist,"data/raw/artist.json")
+
     time.sleep(
         random.uniform(0.5,2.5)
     )
+
+print("成功获取歌曲数", len(result_song))
+print("成功获取歌手数", len(result_artist))

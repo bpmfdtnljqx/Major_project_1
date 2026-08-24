@@ -1,6 +1,9 @@
 #搜索接口地址
 SEARCH_API = "https://app.u.nf.migu.cn/pc/resource/song/item/search/v1.0"
 
+#歌手接口地址
+ARTIST_API = "https://app.c.nf.migu.cn/pc/bmw/singer-index/list/v1.0"
+
 #默认搜索返回歌曲数
 DEFAULT_PAGESIZE = 20
 

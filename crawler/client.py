@@ -1,6 +1,7 @@
 import requests
 from crawler.settings import(
     SEARCH_API,
+    ARTIST_API,
     DEFAULT_PAGESIZE,
     TIME_OUT,
     HEADERS
@@ -24,4 +25,21 @@ def get_songs(keyword, page):
 
     response.raise_for_status()
     
+    return response.json()
+
+def get_artists(tab):
+    #请求参数
+    Params={
+        "tab":tab
+    }
+    #获取响应数据
+    response=requests.get(
+        ARTIST_API,
+        params=Params,
+        headers=HEADERS,
+        timeout=TIME_OUT
+    )
+
+    response.raise_for_status()
+
     return response.json()
