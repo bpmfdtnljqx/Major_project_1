@@ -43,3 +43,11 @@ def get_artists(tab):
     response.raise_for_status()
 
     return response.json()
+
+def get_lyric(Lyric_url):
+    """得到原始歌词"""
+    response = requests.get(Lyric_url,timeout=TIME_OUT)
+    response.raise_for_status()
+    lyric_text = response.text
+
+    return lyric_text
