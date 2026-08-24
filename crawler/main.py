@@ -1,6 +1,5 @@
 from crawler.client import get_songs
-from crawler.parser import parse_song
-from crawler.lyric_parser import get_lyric, clean_lyric
+from crawler.parser import parse_song, get_lyric, clean_lyric
 from crawler.saver import save_json
 import random
 import time
