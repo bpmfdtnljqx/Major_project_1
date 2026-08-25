@@ -29,3 +29,6 @@ Thumbs.db
 # 敏感配置 
 .env
 .env.local
+
+#cookie等配置
+crawler/settings.py
