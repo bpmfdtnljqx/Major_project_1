@@ -1,63 +1,121 @@
 import requests
+import time
+import random
 from crawler.settings import(
     SEARCH_API,
     LYRIC_API,
     DEFAULT_PAGESIZE,
-    COOKIE,
     TIME_OUT,
-    HEADERS
+    COOKIE,
+    HEADERS,
+    SONG_DETAIL_API,
+    ARTIST_API,
+    ARTIST_INTRO_API,
+    ARTISTLIST_API,
+    DEFAULT_ARTISTLIST
 )
+
+session = requests.Session()
+session.headers.update(HEADERS)
+if COOKIE:
+    session.cookies.update(COOKIE)
+
+def _sleep():
+    """间歇爬取"""
+    time.sleep(random.uniform(1,3))
 
 def get_songs(keyword, page):
     """从网站得到歌曲"""
-    #请求参数
-    data={
-        "PARAMS" : ("9jfcU6fwrks/3++gMPqNYDC6yIs3dk7nNKjWbx"
-        "BK1EDTC5RcxylAt32Mf08QZ2hv7sBM7BwnIiCVs0z"
-        "y8+sqx9oFBenzslT9BOfcHc485xfSlwKeUOxzY7zptnH"
-        "HmRr92I79Y+WIjCw/lwNx0jLqesnYtKnUd4QuPOcbxHn"
-        "O/jZDTeRFVXUXABb9rKbmhALAo/tkR4Q3PoP0RQ74XCwkW5"
-        "2mANOSYBJjPwUPTLsoToFQrZ1+tU0H8dverENqjmu3"
-        "loJ5Yd6oAfrN/RXavSOjDvWoBA9J3wf+fdAgDhL5DC29VgyS7lNGzkF/XqMzzBzx"),
-        "ENCSECKEY" : ("4ec7e6836b4657f51b214177b737c93e164af898cdda498ec28"
-        "e8f4096ed6ca10aa624dad506fb436de27e77a1e7c5dccdd7b88e183b5733b1d7200b9f901705"
-        "0f604dff67fe1028c3445ee4a3db5ffc72e12041a08ab6"
-        "0e5503cb025cc0cf5f2a882bc2b73b308d9c9427171012cd9d12a167b8a04f86a087349f45a838a125")
+    params = {
+        "s": keyword,
+        "type": 1,
+        "offset": (page-1)*DEFAULT_PAGESIZE,
+        "limit": DEFAULT_PAGESIZE,
+        "total": "true"
     }
     #获取响应数据
-    response=requests.post(
-        SEARCH_API,
-        data = data,
-        headers= HEADERS,
-        cookies=COOKIE,
-        timeout= TIME_OUT
-    )
-
+    response = session.get(SEARCH_API,params=params,timeout = TIME_OUT)
     response.raise_for_status()
-    
+    _sleep()
     return response.json()
 
-def get_artists(tab):
-    #请求参数
-    Params={
-        "tab":tab
+def get_lyric(song_id):
+    """通过歌曲id获得歌词"""
+    params = {
+        "id": song_id,
+        "lv": -1,
+        "kv": -1,
+        "tv": -1,
     }
-    #获取响应数据
-    response=requests.get(
-        ARTIST_API,
-        params=Params,
-        headers=HEADERS,
+    response = session.get(
+        LYRIC_API,
+        params=params,
+        timeout=TIME_OUT)
+    response.raise_for_status()
+    _sleep()
+    lyric = response.json().get("lrc",{}).get("lyric")
+    return lyric
+
+def get_songdetail(song_id):
+    """通过歌曲id获得除歌词外的信息"""
+    params = {
+        "ids": f"[{song_id}]"
+    }
+    response = session.get(
+        SONG_DETAIL_API,
+        params=params,
         timeout=TIME_OUT
     )
-
     response.raise_for_status()
+    _sleep()
+    song = response.json().get("songs",[])[0]
+    return song
 
+def get_artists(keyword, page):
+    """按关键词搜索歌手"""
+    params = {
+        "s": keyword,
+        "type": 100,
+        "offset": (page - 1) * DEFAULT_PAGESIZE,
+        "limit": DEFAULT_PAGESIZE,
+    }
+    response = session.get(SEARCH_API, params=params, timeout=TIME_OUT)
+    response.raise_for_status()
+    _sleep()
     return response.json()
 
-def get_lyric(Lyric_url):
-    """得到原始歌词"""
-    response = requests.get(Lyric_url,timeout=TIME_OUT)
+def get_artistdetail(artist_id):
+    """按歌手id获取歌手信息"""
+    url = ARTIST_API.format(artist_id=artist_id)
+    response = session.get(url, timeout=TIME_OUT)
     response.raise_for_status()
-    lyric_text = response.text
+    _sleep()
+    return response.json().get("artist", {})
 
-    return lyric_text
+
+def get_artistintro(artist_id):
+    """按歌手id获取歌手简介,部分冷门歌手可能没有"""
+    params = {"id": artist_id}
+    response = session.get(ARTIST_INTRO_API, params=params, timeout=TIME_OUT)
+    response.raise_for_status()
+    _sleep()
+    intro_list = response.json().get("introduction",[])
+    parts = []
+    for item in intro_list:
+        title = item.get("ti", "").strip()
+        text = item.get("txt", "").strip()
+        if text:
+            parts.append(f"{title}\n{text}" if title else text)
+    return "\n\n".join(parts)
+
+def get_artistlist(cat,page):
+    "按分类获取歌手目录"
+    params = {
+        "cat" : cat,
+        "limit" : DEFAULT_ARTISTLIST,
+        "offset" : (page-1)*DEFAULT_PAGESIZE
+    }
+    response = session.get(ARTIST_API,params=params,timeout=TIME_OUT)
+    response.raise_for_status()
+    _sleep()
+    return response.json().get("artists",[])
