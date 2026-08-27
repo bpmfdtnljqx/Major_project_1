@@ -12,7 +12,7 @@ from crawler.saver import save_json
 import requests
 
 #期望歌手数量
-ARTIST_TARGET = 200
+ARTIST_TARGET = 360
 #每个标签最多搜索页数
 DISCOVER_PAGES = 2
 #每个歌手最多搜索页数
@@ -86,18 +86,23 @@ def discover_artists():
 
 
 def fill_artistdetail(artists):
-    """补充歌手简介"""
+    """补充歌手简介，并删除没有简介的歌手"""
+    valid_artists = []
     for artist in artists:
         artist_id = artist["artist_id"]
         try:
             detail = get_artistdetail(artist_id)
             artist["artist_image"] = (detail.get("picUrl",""))
             intro = get_artistintro(artist_id)
+            if not intro or len(intro.strip()) < 10:
+                continue
             artist["artist_intro"] = intro
+            valid_artists.append(artist)
             print(f"成功获取歌手详情：{artist['artist_name']}",flush=True)
         except requests.RequestException:
             print(f"获取歌手详情失败：{artist['artist_name']}",flush=True)
         _sleep()
+    print(f"最终保留歌手{len(valid_artists)}名",flush=True)
     return artists
 
 
