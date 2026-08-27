@@ -5,16 +5,12 @@ def parse_song(song):
     """解析歌曲数据"""
     song_id = song.get("id")
     #处理多个歌手的问题
-    artists = []
+    artist_ids = []
+    artist_names = []
     singer_list = song.get("artists",[])
     for singer in singer_list:
-        artists.append(
-            {
-                "artist_id" : singer.get("id"),
-                "artist_name" : singer.get("name"),
-                "artist_url" : ARTIST_URL.format(id=singer.get("id"))
-            }
-        )
+        artist_ids.append(singer.get("id"))
+        artist_names.append(singer.get("name"))
     album = song.get("album") or {}
     song_data={
         "song_id" : song.get("id"),
@@ -24,8 +20,8 @@ def parse_song(song):
         "album_name" : album.get("name"),
         "duration" : song.get("duration"),
         "cover_url" : "",
-        "artists" : artists,
-        "artists_name" : "/".join(ar["artist_name"] for ar in artists),
+        "artist_ids" : artist_ids,
+        "artist_names" : "/".join(artist_names),
         "lyric" : ""
     }
     return song_data

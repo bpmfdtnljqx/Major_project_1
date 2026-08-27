@@ -115,7 +115,7 @@ def get_artistlist(cat,page):
         "limit" : DEFAULT_ARTISTLIST,
         "offset" : (page-1)*DEFAULT_PAGESIZE
     }
-    response = session.get(ARTIST_API,params=params,timeout=TIME_OUT)
+    response = session.get(ARTISTLIST_API,params=params,timeout=TIME_OUT)
     response.raise_for_status()
     _sleep()
     return response.json().get("artists",[])
