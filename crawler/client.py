@@ -12,7 +12,8 @@ from crawler.settings import(
     ARTIST_API,
     ARTIST_INTRO_API,
     ARTISTLIST_API,
-    DEFAULT_ARTISTLIST
+    DEFAULT_ARTISTLIST,
+    PLAYLIST_CATALOGUE_API
 )
 
 session = requests.Session()
@@ -108,14 +109,20 @@ def get_artistintro(artist_id):
             parts.append(f"{title}\n{text}" if title else text)
     return "\n\n".join(parts)
 
-def get_artistlist(cat,page):
+def get_artistlist(page):
     "按分类获取歌手目录"
     params = {
-        "cat" : cat,
         "limit" : DEFAULT_ARTISTLIST,
-        "offset" : (page-1)*DEFAULT_PAGESIZE
+        "offset" : (page-1)*DEFAULT_ARTISTLIST
     }
     response = session.get(ARTISTLIST_API,params=params,timeout=TIME_OUT)
     response.raise_for_status()
     _sleep()
     return response.json().get("artists",[])
+
+def get_playlist_catalogue():
+    """获取标签目录"""
+    response = session.get(PLAYLIST_CATALOGUE_API,timeout=TIME_OUT)
+    response.raise_for_status()
+    _sleep()
+    return response.json()
