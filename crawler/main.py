@@ -95,6 +95,7 @@ def fill_artistdetail(artists):
             artist["artist_image"] = (detail.get("picUrl",""))
             intro = get_artistintro(artist_id)
             if not intro or len(intro.strip()) < 10:
+                print(f"跳过歌手：{artist["artist_name"]}",flush=True)
                 continue
             artist["artist_intro"] = intro
             valid_artists.append(artist)
