@@ -104,7 +104,7 @@ def fill_artistdetail(artists):
             print(f"获取歌手详情失败：{artist['artist_name']}",flush=True)
         _sleep()
     print(f"最终保留歌手{len(valid_artists)}名",flush=True)
-    return artists
+    return valid_artists
 
 
 def crawl_songs(artists):
