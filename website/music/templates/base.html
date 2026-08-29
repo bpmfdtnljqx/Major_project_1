@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <meta charset="="UTF-8">
+    <metaname="viewpoint" content=""width=device-width,initial-scale=1.0">
+    <title>{% block title %}音乐数据浏览系统{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+    <body>
+    <header>
+        <h1>音乐数据浏览系统</h1>
+        <nav>
+            <a href="/">歌曲</a>
+            <a href="/artists/">歌手</a>
+            <a href="/search/">搜索</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body></html>

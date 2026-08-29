@@ -1,0 +1,35 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+}
+header {
+    background: #222;
+    color: #f5f5f5;
+    padding: 20px;
+}
+header h1 {
+    margin: 0 0 15px 0;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+}
+nav a:hover {
+    text-decoration: underline;
+}
+main {
+    width: 90%;
+    max-width: 1100px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    box-sizing: border-box;
+}
+footer {
+    text-align: center;
+    margin: 30px 0;
+    color: #777;
+}
