@@ -68,3 +68,12 @@ def song_detail(request,song_id):
             song = item
             break
     return render(request,"song_detail.html",{"song":song})
+
+def artist_detail(request,artist_id):
+    artists = load_artists()
+    artist = None
+    for item in artists:
+        if item["artist_id"] == artist_id:
+            artist = item
+            break
+    return render(request,"artist_detail.html",{"artist":artist})

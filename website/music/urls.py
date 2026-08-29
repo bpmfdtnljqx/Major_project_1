@@ -9,7 +9,7 @@ urlpatterns = [
     #歌曲详情页
     path('song/<int:song_id>/',views.song_detail,name='song_detail'),
     #歌手列表
-    path('artists/',views.artist_list,name='artist_list')
+    path('artists/',views.artist_list,name='artist_list'),
     #歌手详情页
-    
+    path('artist/<int:artist_id>/',views.artist_detail,name='artist_detail')
 ]

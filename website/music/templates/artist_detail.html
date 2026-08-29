@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}
+    {{artist.artist_name}}
+{% endblock %}
+{% block content %}
+<h2>
+    {{ artist.artist_name }}
+</h2>
+<img 
+src="{{ artist.artist_image }}"
+width="300">
+<h3>
+    歌手简介
+</h3>
+<p>
+    {{ artist.artist_intro }}
+</p>
+<p>
+    网易云链接：
+    <a href="{{ artist.artist_url }}" target="_blank">
+    点击打开
+    </a>
+</p>
+{% endblock %}
