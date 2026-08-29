@@ -58,4 +58,13 @@ def song_list(request):
         'page_range' : page_range,
         'page_numbers' : page_numbers
     }
-    return render(request,"_list.html",context)
+    return render(request,"song_list.html",context)
+
+def song_detail(request,song_id):
+    songs = load_songs()
+    song = None
+    for item in songs:
+        if item["song_id"] == song_id:
+            song = item
+            break
+    return render(request,"song_detail.html",{"song":song})

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+    歌曲详情
+{% endblock %}
+{% block content %}
+<h2>
+    {{ song.song_name }}
+</h2>
+<p>
+    歌手：{{ song.artist_names }}
+</p>
+<img 
+src="{{ song.cover_url }}"
+width="300">
+<h3>
+    歌词
+</h3>
+<pre>
+    {{ song.lyric }}
+</pre>
+<p>
+    网易云链接：
+    <a href="{{ song.song_url }}" target="_blank">
+    点击打开
+    </a>
+</p>
+{% endblock %}
