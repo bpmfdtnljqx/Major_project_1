@@ -28,4 +28,44 @@
         搜索
     </button>
 </form>
+{% if keyword %}
+<hr>
+<h3>
+    搜索结果
+</h3>
+<p>
+    关键词：{{keyword}}
+</p>
+<p>
+    搜索到{{count}}条结果
+</p>
+<p>
+    搜索耗时：{{cost}}秒
+</p>
+<div>
+    {% for item in results %}
+    {% if type == "song" %}
+    <div>
+    <img
+    src="{{ item.cover_url }}"
+    width="100">
+    <a href="/song/{{ item.song_id }}/">
+        {{ item.song_name }}
+    </a>
+    </div>
+<hr>
+{% else %}
+<div>
+    <img
+    src="{{ item.artist_image }}"
+    width="100">
+    <a href="/artist/{{ item.artist_id }}/">
+    {{ item.artist_name }}
+    </a>
+    </div>
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

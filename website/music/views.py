@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 from music.data_loader import load_artists,load_songs
 from math import ceil
@@ -85,4 +86,34 @@ def artist_detail(request,artist_id):
                                                 "songs":artist_songs})
 
 def search(request):
-    return render(request,"search.html")
+    #获取搜索内容
+    keyword = request.GET.get("keyword","")
+    #获取搜索类型
+    search_type = request.GET.get("type","song")
+    results = []
+    cost = 0
+    if keyword:
+        start = time.time()
+        if search_type == "song":
+            songs = load_songs()
+            for song in songs:
+                if(keyword in song["song_name"]
+                   or keyword in song["artist_names"]
+                   or keyword in song["lyric"]):
+                    results.append(song)
+        elif search_type == "artist":
+            artists = load_artists()
+            for artist in artists:
+                if(keyword in artist["artist_name"]
+                   or keyword in artist["artist_intro"]):
+                    results.append(artist)
+        end = time.time()
+        cost = end - start
+    context = {
+        "keyword" : keyword,
+        "type" : search_type,
+        "results" : results,
+        "count" : len(results),
+        "cost" : cost
+    }
+    return render(request,"search.html",context)
