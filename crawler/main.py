@@ -7,7 +7,7 @@ from crawler.client import (
     get_artistlist,
     get_playlist_catalogue,
     _sleep)
-from crawler.parser import parse_song,parse_songdetail,clean_lyric
+from crawler.parser import parse_song,parse_songdetail,parse_artist,clean_lyric
 from crawler.saver import save_json
 import requests
 
@@ -31,14 +31,8 @@ def discover_artists():
     for artist in artists:
         artist_id = artist.get("id")
         if (artist_id and artist_id not in artist_ids):
-            artists_result.append(
-                {
-                    "artist_id": artist_id,
-                    "artist_name": artist.get("name"),
-                    "artist_image": "",
-                    "artist_intro": ""
-                }
-            )
+            artist_data = parse_artist(artist)
+            artists_result.append(artist_data)
             artist_ids.add(artist_id)
             print(f"成功获取歌手：{artist.get('name')}",flush=True)
     #通过标签爬取
@@ -69,17 +63,9 @@ def discover_artists():
                         break
                     artist_id = singer.get("id")
                     if (artist_id and artist_id not in artist_ids):
-                        artists_result.append(
-                            {
-                                "artist_id": artist_id,
-                                "artist_name": singer.get("name"),
-                                "artist_image": "",
-                                "artist_intro": ""
-                            }
-                        )
+                        artist_data = parse_artist(singer)
+                        artists_result.append(artist_data)
                         artist_ids.add(artist_id)
-
-
                         print(f"成功发现歌手：{singer.get('name')}",flush=True)
     print(f"共获取歌手：{len(artists_result)}名",flush=True)
     return artists_result
@@ -91,8 +77,6 @@ def fill_artistdetail(artists):
     for artist in artists:
         artist_id = artist["artist_id"]
         try:
-            detail = get_artistdetail(artist_id)
-            artist["artist_image"] = (detail.get("picUrl",""))
             intro = get_artistintro(artist_id)
             if not intro or len(intro.strip()) < 10:
                 print(f"跳过歌手：{artist['artist_name']}",flush=True)
