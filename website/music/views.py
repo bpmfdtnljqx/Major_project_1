@@ -76,4 +76,10 @@ def artist_detail(request,artist_id):
         if item["artist_id"] == artist_id:
             artist = item
             break
-    return render(request,"artist_detail.html",{"artist":artist})
+    songs = load_songs()
+    artist_songs = []
+    for song in songs:
+        if artist_id in song["artist_ids"]:
+            artist_songs.append(song)
+    return render(request,"artist_detail.html",{"artist":artist,
+                                                "songs":artist_songs})

@@ -21,4 +21,19 @@ width="300">
     点击打开
     </a>
 </p>
+<h3>
+    该歌手的歌曲列表
+</h3>
+<ul>
+    {% for song in songs %}
+    <div>
+    <img 
+    src="{{ song.cover_url }}"
+    width="100">
+    <a href="/song/{{ song.song_id }}/">
+    {{ song.song_name }}
+    </a>
+    </div>
+    {% endfor %}
+</ul>
 {% endblock %}
