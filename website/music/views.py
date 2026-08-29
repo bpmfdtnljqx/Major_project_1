@@ -83,3 +83,6 @@ def artist_detail(request,artist_id):
             artist_songs.append(song)
     return render(request,"artist_detail.html",{"artist":artist,
                                                 "songs":artist_songs})
+
+def search(request):
+    return render(request,"search.html")

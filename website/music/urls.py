@@ -11,5 +11,7 @@ urlpatterns = [
     #歌手列表
     path('artists/',views.artist_list,name='artist_list'),
     #歌手详情页
-    path('artist/<int:artist_id>/',views.artist_detail,name='artist_detail')
+    path('artist/<int:artist_id>/',views.artist_detail,name='artist_detail'),
+    #搜索路径
+    path('search/',views.search,name='search')
 ]

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+搜索
+{% endblock %}
+{% block content %}
+<h2>
+    搜索音乐资源
+</h2>
+<form method="get">
+    <input
+    type="text",
+    name="keyword",
+    placeholder="请输入关键词">
+    <br><br>
+    <input
+    type="radio"
+    name="type"
+    value="song"
+    checked>
+    搜索歌曲
+    <input
+    type="radio"
+    name="type"
+    value="artist">
+    搜索歌手
+    <br><br>
+    <button type="submit">
+        搜索
+    </button>
+</form>
+{% endblock %}
