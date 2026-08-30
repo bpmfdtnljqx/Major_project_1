@@ -1,48 +1,53 @@
 {% extends "base.html" %}
-
 {% block title %}
 歌曲列表
 {% endblock %}
-
 {% block content %}
-
-<h2>歌曲列表</h2>
-
-<p>
-    共{{total}}首歌曲
+<h2>
+    歌曲列表
+</h2>
+<p class="page-info">
+    共 {{total}} 首歌曲
 </p>
-<ul>
-    {% for song in songs %}
-    <li>
-        <a href="/song/{{song.song_id}}/">
-            <strong>
-                {{song.song_name}}
-            </strong>
+<div class="song-list">
+{% for song in songs %}
+<div class="song-item">
+    <div class="cover-box">
+        <img src="{{song.cover_url}}">
+    </div>
+    <div class="song-info">
+        <h3>
+            {{song.song_name}}
+        </h3>
+        <p class="artist-name">
+            {{song.artist_names}}
+        </p>
+        <a class="btn" href="/song/{{song.song_id}}/">
+            查看详情
         </a>
-        -
-        {{song.artist_names}}
-    </li>
-    {% endfor %}
-</ul>
+    </div>
+</div>
+{% endfor %}
+</div>
 <div class="pagination">
-    {% if page > 1 %}
-    <a href="?page=1">
-        首页
-    </a>
-    <a href="?page={{ page|add:'-1'}}">
-        上一页
-    </a>
-    {% endif %}
-    <span>
-        第{{page}}页/共{{total_page}}页
-    </span>
-    {% if page < total_pages %}
-    <a href="?page={{ page|add:'1' }}">
-    下一页
-    </a>
-    <a href="?page={{ total_pages }}">
-    尾页
-    </a>
-    {% endif %}
+{% if page > 1 %}
+<a href="?page=1">
+首页
+</a>
+<a href="?page={{page|add:'-1'}}">
+上一页
+</a>
+{% endif %}
+<span>
+第 {{page}} 页/共 {{total_pages}} 页
+</span>
+{% if page < total_pages %}
+<a href="?page={{page|add:'1'}}">
+下一页
+</a>
+<a href="?page={{total_pages}}">
+尾页
+</a>
+{% endif %}
 </div>
 {% endblock %}

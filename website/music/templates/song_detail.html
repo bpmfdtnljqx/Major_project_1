@@ -3,32 +3,39 @@
     歌曲详情
 {% endblock %}
 {% block content %}
-<h2>
-    {{ song.song_name }}
-</h2>
-<p>
-    歌手：
-    {% for artist in artists %}
-    <a href="/artist/{{artist.artist_id}}/">
-        {{artist.artist_name}}
-    </a>
-    {% endfor %}
-</p>
-<img 
-src="{{ song.cover_url }}"
-width="300">
+<div class="song-detail-header">
+    <div class="detail-cover">
+        <img
+        src="{{ song.cover_url }}"
+        class="song-detail-cover">
+    </div>
+    <div class="detail-info">
+        <h2>
+            {{ song.song_name }}
+        </h2>
+        <p>
+            歌手：
+            {% for artist in artists %}
+            <a href="/artist/{{artist.artist_id}}/">
+                {{artist.artist_name}}
+            </a>
+            {% endfor %}
+        </p>
+        <a class="btn"
+        href="{{ song.song_url }}"
+        target="_blank">
+            在网易云打开
+        </a>
+    </div>
+</div>
 <h3>
-    歌词
+歌词
 </h3>
+<div class="lyric-box">
 <pre>
-    {{ song.lyric }}
+{{ song.lyric }}
 </pre>
-<p>
-    网易云链接：
-    <a href="{{ song.song_url }}" target="_blank">
-    点击打开
-    </a>
-</p>
+</div>
 <hr>
 <h3>
     评论区
@@ -49,7 +56,7 @@ width="300">
 <hr>
 {% if comments %}
 {% for comment in comments %}
-<div>
+<div class="comment-card">
     <p>
         {{comment.content}}
     </p>
