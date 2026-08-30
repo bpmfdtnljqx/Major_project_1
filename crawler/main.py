@@ -12,11 +12,11 @@ from crawler.saver import save_json
 import requests
 
 #期望歌手数量
-ARTIST_TARGET = 360
+ARTIST_TARGET = 400
 #每个标签最多搜索页数
 DISCOVER_PAGES = 2
 #每个歌手最多搜索页数
-SONG_PAGES = 2
+SONG_PAGES = 1
 #自动保存
 SAVE_EVERY = 50
 
