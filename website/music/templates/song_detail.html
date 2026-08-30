@@ -24,4 +24,25 @@ width="300">
     点击打开
     </a>
 </p>
+<hr>
+<h3>
+    评论区
+</h3>
+{% if comments %}
+{% for comment in comments %}
+<div>
+    <p>
+        {{comment.comment}}
+    </p>
+    <small>
+        {{comment.time}}
+    </small>
+</div>
+<hr>
+{% endfor %}
+{% else %}
+<p>
+    暂无评论
+</p>
+{% endif %}
 {% endblock %}
