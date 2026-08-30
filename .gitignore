@@ -14,11 +14,8 @@ website/staticfiles/
 
 # 数据与图表
 data/raw/*
-data/processed/*
-data/figures/*
+data/comment.json
 !data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/figures/.gitkeep
 
 # IDE 与系统文件
 .vscode/

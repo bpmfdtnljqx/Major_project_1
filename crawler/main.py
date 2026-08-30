@@ -16,9 +16,7 @@ ARTIST_TARGET = 360
 #每个标签最多搜索页数
 DISCOVER_PAGES = 2
 #每个歌手最多搜索页数
-SONG_PAGES = 3
-#歌曲上限数
-TARGET_SONGS = 3000
+SONG_PAGES = 2
 #自动保存
 SAVE_EVERY = 50
 
@@ -96,11 +94,7 @@ def crawl_songs(artists):
     songs = []
     song_ids = set()
     for artist in artists:
-        if len(songs) >= TARGET_SONGS:
-            break
         for page in range(1,SONG_PAGES + 1):
-            if len(songs) >= TARGET_SONGS:
-                break
             data = get_songs(artist["artist_name"],page)
             song_list = (data.get("result", {}).get("songs", []))
             for song in song_list:
