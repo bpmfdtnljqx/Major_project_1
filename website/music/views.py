@@ -73,10 +73,23 @@ def song_detail(request,song_id):
             break
     song_artists = []
     if song:
-        for artist_id in song["artist_ids"]:
+        names = song["artist_names"].split("/")
+        for index,artist_id in enumerate(song["artist_ids"]):
+            found = False
             for artist in all_artists:
                 if artist["artist_id"] == artist_id:
                     song_artists.append(artist)
+                    found = True
+                    break
+            if not found:
+                song_artists.append(
+                    {
+                        "artist_id" : artist_id,
+                        "artist_name" : names[index],
+                        "artist_image" : "",
+                        "artist_intro" : "这个人很神秘，但希望他的歌声可以打动你"
+                    }
+                )
     all_comments = load_comment()
     comments = []
     for comment in all_comments:
@@ -88,12 +101,27 @@ def song_detail(request,song_id):
 
 def artist_detail(request,artist_id):
     artists = load_artists()
+    songs = load_songs()
     artist = None
     for item in artists:
         if item["artist_id"] == artist_id:
             artist = item
             break
-    songs = load_songs()
+    if artist is None:
+        artist_name = "未知歌手"
+        for song in songs:
+            if artist_id in song["artist_ids"]:
+                names = song["artist_names"].split("/")
+                index = song["artist_ids"].index(artist_id)
+                artist_name = names[index]
+                break
+        artist = {
+            "artist_id" : artist_id,
+            "artist_name" : artist_name,
+            "artist_image" : "",
+            "artist_intro" : "这个人很神秘，但希望ta的歌声可以打动你",
+            "artsit_url" : ""
+        }
     artist_songs = []
     for song in songs:
         if artist_id in song["artist_ids"]:

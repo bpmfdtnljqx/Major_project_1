@@ -15,12 +15,14 @@ width="300">
 <p>
     {{ artist.artist_intro }}
 </p>
+{% if artist.artist_url %}
 <p>
     网易云链接：
     <a href="{{ artist.artist_url }}" target="_blank">
     点击打开
     </a>
 </p>
+{% endif %}
 <h3>
     该歌手的歌曲列表
 </h3>
