@@ -1,35 +1,81 @@
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #333;
-}
-header {
-    background: #222;
-    color: #f5f5f5;
-    padding: 20px;
-}
-header h1 {
-    margin: 0 0 15px 0;
-}
-nav a {
-    color: white;
-    text-decoration: none;
-    margin-right: 20px;
-}
-nav a:hover {
-    text-decoration: underline;
-}
-main {
-    width: 90%;
-    max-width: 1100px;
-    margin: 30px auto;
-    background: white;
-    padding: 25px;
+/* 全局基础 */
+* {
     box-sizing: border-box;
 }
-footer {
-    text-align: center;
-    margin: 30px 0;
-    color: #777;
+body {
+    margin: 0;
+    font-family:
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
+    background: #f3f4f6;
+    color: #333;
+}
+/* 顶部导航*/
+.site-header {
+    background: #222;
+    color:white;
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.15);
+}
+.header-container {
+    max-width:1100px;
+    margin:auto;
+    padding:20px 25px;
+}
+.site-title {
+    margin:0 0 15px;
+    font-size:28px;
+}
+/* 导航 */
+.main-nav a {
+    color:white;
+    text-decoration:none;
+    margin-right:25px;
+    font-size:16px;
+    transition:0.2s;
+}
+.main-nav a:hover {
+    color:#66b3ff;
+}
+/*主体 */
+.page-container {
+    width:90%;
+    max-width:1100px;
+    margin:35px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.08);
+}
+/* 通用链接 */
+a {
+    color:#333;
+    text-decoration:none;
+}
+a:hover {
+    color:#1677ff;
+}
+/* 通用图片 */
+img {
+    max-width:100%;
+    display:block;
+}
+/*  按钮基础 */
+button,
+.btn {
+    display:inline-block;
+    padding:
+        8px 16px;
+    border:none;
+    border-radius:8px;
+    background:#1677ff;
+    color:white;
+    cursor:pointer;
+    text-decoration:none;
+}
+button:hover,
+.btn:hover {
+    background:#0958d9;
 }
