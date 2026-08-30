@@ -13,5 +13,9 @@ urlpatterns = [
     #歌手详情页
     path('artist/<int:artist_id>/',views.artist_detail,name='artist_detail'),
     #搜索路径
-    path('search/',views.search,name='search')
+    path('search/',views.search,name='search'),
+    #评论
+    path('song/<int:song_id>/comment/',views.add_comment,name='add_comment'),
+    #评论删除
+    path('comment/<int:comment_id>/delete/',views.delete_comment,name='delete_comment')
 ]

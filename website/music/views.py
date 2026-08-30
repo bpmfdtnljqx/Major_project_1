@@ -1,8 +1,9 @@
 import time
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from music.data_loader import load_artists,load_songs
 from math import ceil
-from music.comment_loader import load_comment
+from music.comment_loader import load_comment,save_comment
+from datetime import datetime
 def artist_list(request):
     #加载歌手数据
     artists = load_artists()
@@ -138,3 +139,32 @@ def search(request):
         "page_range" : page_range
     }
     return render(request,"search.html",context)
+
+def add_comment(request,song_id):
+    if request.method == "POST":
+        content = request.POST.get("content","")
+        if content.strip():
+            comments = load_comment()
+            new_comment = {
+                "comment_id" : len(comments)+1,
+                "song_id" : song_id,
+                "content" : content,
+                "time" : datetime.now().strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+            }
+            comments.insert(0,new_comment)
+            save_comment(comments)
+    return redirect(f"/song/{song_id}")
+
+def delete_comment(request,comment_id):
+    song_id = None
+    if request.method == "POST":
+        song_id = request.POST.get("song_id")
+        comments = load_comment()
+        new_comments = []
+        for comment in comments:
+            if comment["comment_id"] != comment_id:
+                new_comments.append(comment)
+        save_comment(new_comments)
+    return redirect(f"/song/{song_id}")

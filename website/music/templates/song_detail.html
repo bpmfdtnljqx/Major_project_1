@@ -28,15 +28,39 @@ width="300">
 <h3>
     评论区
 </h3>
+<form method="post" action="/song/{{song.song_id}}/comment/">
+    {% csrf_token %}
+    <textarea
+    name="content"
+    rows="4"
+    cols="50"
+    placeholder="请写下你的评论">
+</textarea>
+<br>
+<button type="submit">
+    提交评论
+</button>
+</form>
+<hr>
 {% if comments %}
 {% for comment in comments %}
 <div>
     <p>
-        {{comment.comment}}
+        {{comment.content}}
     </p>
     <small>
         {{comment.time}}
     </small>
+    <form method="post" action="/comment/{{comment.comment_id}}/delete/">
+        {% csrf_token %}
+        <input
+        type="hidden"
+        name="song_id"
+        value="{{ song.song_id }}">
+        <button type="submit">
+            删除
+        </button>
+    </form>
 </div>
 <hr>
 {% endfor %}

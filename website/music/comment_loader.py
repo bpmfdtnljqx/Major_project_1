@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 COMMENT_FILE = BASE_DIR/"data"/"comment.json"
 
 def load_comment():
