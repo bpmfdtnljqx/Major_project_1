@@ -65,18 +65,26 @@ def song_list(request):
 
 def song_detail(request,song_id):
     songs = load_songs()
+    all_artists = load_artists()
     song = None
     for item in songs:
         if item["song_id"] == song_id:
             song = item
             break
+    song_artists = []
+    if song:
+        for artist_id in song["artist_ids"]:
+            for artist in all_artists:
+                if artist["artist_id"] == artist_id:
+                    song_artists.append(artist)
     all_comments = load_comment()
     comments = []
     for comment in all_comments:
         if comment["song_id"] == song_id:
             comments.append(comment)
     return render(request,"song_detail.html",{"song":song,
-                                              "comments":comments})
+                                              "comments":comments,
+                                              "artists" : song_artists})
 
 def artist_detail(request,artist_id):
     artists = load_artists()

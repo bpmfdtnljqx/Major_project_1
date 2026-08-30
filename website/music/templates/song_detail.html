@@ -7,7 +7,12 @@
     {{ song.song_name }}
 </h2>
 <p>
-    歌手：{{ song.artist_names }}
+    歌手：
+    {% for artist in artists %}
+    <a href="/artist/{{artist.artist_id}}/">
+        {{artist.artist_name}}
+    </a>
+    {% endfor %}
 </p>
 <img 
 src="{{ song.cover_url }}"
