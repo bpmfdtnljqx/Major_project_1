@@ -109,11 +109,25 @@ def search(request):
                     results.append(artist)
         end = time.time()
         cost = end - start
+    per_page = 20
+    page = request.GET.get("page",1)
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+    total_page = ceil(len(results)/per_page)
+    start_result = (page-1)*per_page
+    end_result = start_result+per_page
+    current_result = results[start_result:end_result]
+    page_range = range(1,total_page+1)
     context = {
         "keyword" : keyword,
         "type" : search_type,
-        "results" : results,
+        "results" : current_result,
         "count" : len(results),
-        "cost" : cost
+        "cost" : cost,
+        "page" : page,
+        "total_page" : total_page,
+        "page_range" : page_range
     }
     return render(request,"search.html",context)

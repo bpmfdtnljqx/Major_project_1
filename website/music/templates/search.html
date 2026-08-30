@@ -67,5 +67,26 @@
     {% endif %}
     {% endfor %}
 </div>
+<div>
+    {% if page > 1 %}
+    <a href="?keyword={{keyword}}&type={{type}}&page=1">
+        首页
+    </a>
+    <a href="?keyword={{keyword}}&type={{type}}&page={{page|add:'-1'}}">
+        上一页
+    </a>
+    {% endif %}
+    <span>
+        第{{page}}页/共{{total_page}}页
+    </span>
+    {% if page < total_page %}
+    <a href="?keyword={{keyword}}&type={{type}}&page={{page|add:'1'}}">
+        下一页
+    </a>
+    <a href="?keyword={{keyword}}&type={{type}}&page={{total_page}}">
+        尾页
+    </a>
+    {% endif %}
+</div>
 {% endif %}
 {% endblock %}
