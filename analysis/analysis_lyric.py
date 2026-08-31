@@ -49,6 +49,7 @@ stop_words = {
     "我们",
     "你们",
     "他们",
+    "欣赏",
     # 歌词元数据
     "作词",
     "作曲",
@@ -64,10 +65,18 @@ stop_words = {
     "鼓",
     "钢琴",
     "音乐",
+    "编写",
     # 纯音乐提示
     "纯音乐",
     "请欣赏"
 }
+#将歌手名加入停用词
+for artist_names in df["artist_names"].dropna():
+    artists = str(artist_names).split(",")
+    for artist in artists:
+        artist = artist.strip()
+        if artist:
+            stop_words.add(artist)
 #歌词分词函数
 def tokenize_lyric(lyric):
     words = jieba.lcut(str(lyric))
@@ -122,34 +131,81 @@ for word, frequency in word_counts.items():
         "song_count": song_count,
         "song_percentage": song_percentage
     })
-
 word_result = pd.DataFrame(word_results)
+#筛选具有一定代表性的词
+analysis_result = word_result[
+    word_result["frequency"] >= 20
+].copy()
+#计算词频与歌曲覆盖数的相关系数
+correlation = (
+    analysis_result["frequency"]
+    .corr(
+        analysis_result["song_count"]
+    )
+)
+#保存相关系数
+correlation_result = pd.DataFrame({
+    "metric": [
+        "Pearson correlation"
+    ],
+    "value": [
+        correlation
+    ]
+})
+correlation_result.to_csv("analysis/output/lyric_correlation.csv",index=False,encoding="utf-8-sig")
+#绘制词频与歌曲覆盖数散点图
+plt.figure(figsize=(10, 7))
+plt.scatter(
+    analysis_result["song_count"],
+    analysis_result["frequency"]
+)
+plt.xlabel("歌曲覆盖数")
+plt.ylabel("词频")
+plt.title("歌词词频与歌曲覆盖数的关系")
+#标注词频最高的10个词
+top_labels = (
+    analysis_result
+    .sort_values("frequency",ascending=False)
+    .head(10)
+)
+for _, row in top_labels.iterrows():
+    plt.annotate(
+        row["word"],
+        (
+            row["song_count"],
+            row["frequency"]
+        )
+    )
+plt.tight_layout()
+plt.savefig("analysis/output/lyric_frequency_coverage.png",dpi=300)
+plt.close()
+#保存用于相关性分析的数据
+analysis_result.to_csv("analysis/output/lyric_frequency_coverage.csv",index=False,encoding="utf-8-sig")
 #按总词频排序
 top_frequency = (
-    word_result
-    .sort_values(
-        "frequency",
-        ascending=False
-    )
+    analysis_result
+    .sort_values("frequency",ascending=False)
     .head(20)
     .reset_index(drop=True)
 )
 #按歌曲覆盖率排序
 top_coverage = (
-    word_result
-    .sort_values(
-        "song_percentage",
-        ascending=False
-    )
+    analysis_result
+    .sort_values("song_percentage",ascending=False)
     .head(20)
     .reset_index(drop=True)
 )
-#创建输出目录并保存数据
+#创建输出目录
 os.makedirs("analysis/output",exist_ok=True)
+#保存Top 20词频
 top_frequency.to_csv("analysis/output/lyric_top_frequency.csv",index=False,encoding="utf-8-sig")
+#保存Top 20歌曲覆盖率
 top_coverage.to_csv("analysis/output/lyric_top_coverage.csv",index=False,encoding="utf-8-sig")
-#绘制图
-frequency_plot = top_frequency.sort_values("frequency")
+#绘制Top 20词频
+frequency_plot = (
+    top_frequency
+    .sort_values("frequency")
+)
 plt.figure(figsize=(10, 8))
 plt.barh(
     frequency_plot["word"],
@@ -161,7 +217,11 @@ plt.title("歌词高频词 Top 20")
 plt.tight_layout()
 plt.savefig("analysis/output/lyric_top_frequency.png",dpi=300)
 plt.close()
-coverage_plot = top_coverage.sort_values("song_percentage")
+#绘制Top 20歌曲覆盖率
+coverage_plot = (
+    top_coverage
+    .sort_values("song_percentage")
+)
 plt.figure(figsize=(10, 8))
 plt.barh(
     coverage_plot["word"],
