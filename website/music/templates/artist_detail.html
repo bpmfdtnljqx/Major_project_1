@@ -3,39 +3,45 @@
     {{artist.artist_name}}
 {% endblock %}
 {% block content %}
-<h2>
-    {{ artist.artist_name }}
-</h2>
-<img 
-src="{{ artist.artist_image }}"
-width="300">
-<h3>
-    歌手简介
-</h3>
-<p>
-    {{ artist.artist_intro }}
-</p>
-{% if artist.artist_url %}
-<p>
-    网易云链接：
-    <a href="{{ artist.artist_url }}" target="_blank">
-    点击打开
-    </a>
-</p>
-{% endif %}
-<h3>
+<div class="artist-detail-header">
+    <div class="artist-detail-avatar-box">
+        <img
+        src="{{ artist.artist_image }}"
+        class="artist-detail-avatar">
+    </div>
+    <div class="artist-detail-info">
+        <h2>
+            {{ artist.artist_name }}
+        </h2>
+        <h3>
+            歌手简介
+        </h3>
+        <p>
+            {{ artist.artist_intro }}
+        </p>
+        {% if artist.artist_url %}
+        <a class="btn"
+        href="{{ artist.artist_url }}"
+        target="_blank">
+            打开网易云主页
+        </a>
+        {% endif %}
+    </div>
+</div>
+<h3 class="section-title">
     该歌手的歌曲列表
 </h3>
-<ul>
-    {% for song in songs %}
-    <div>
-    <img 
-    src="{{ song.cover_url }}"
-    width="100">
-    <a href="/song/{{ song.song_id }}/">
-    {{ song.song_name }}
-    </a>
+<div class="artist-song-list">
+{% for song in songs %}
+<div class="artist-song-item">
+    <div class="mini-cover">
+        <img
+        src="{{ song.cover_url }}">
     </div>
-    {% endfor %}
-</ul>
+    <a href="/song/{{ song.song_id }}/">
+        {{ song.song_name }}
+    </a>
+</div>
+{% endfor %}
+</div>
 {% endblock %}

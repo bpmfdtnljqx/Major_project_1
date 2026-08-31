@@ -1,27 +1,35 @@
 {% extends "base.html" %}
-
 {% block title %}
 歌手列表
 {% endblock %}
-
 {% block content %}
-
 <h2>
     歌手列表
 </h2>
 <p>
     共{{total}}位歌手
 </p>
-<ul>
-    {% for artist in artists %}
-    <li>
-        <a href="/artist/{{artist.artist_id}}/">
+<div class="artist-list">
+{% for artist in artists %}
+<div class="artist-card">
+    <a href="/artist/{{artist.artist_id}}/">
+        <div class="artist-avatar-box">
+            <img 
+            src="{{artist.artist_image}}"
+            alt="{{artist.artist_name}}">
+        </div>
+        <h3>
             {{artist.artist_name}}
-        </a>
-    </li>
-    {% endfor %}
-</ul>
-<div>
+        </h3>
+    </a>
+    <a class="btn"
+    href="/artist/{{artist.artist_id}}/">
+        查看详情
+    </a>
+</div>
+{% endfor %}
+</div>
+<div class="pagination">
     {% if page > 1 %}
     <a href="?page=1">
         首页

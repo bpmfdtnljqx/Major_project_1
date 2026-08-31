@@ -165,3 +165,143 @@ button:hover,
 
     color:#888;
 }
+/*歌手列表*/
+.artist-list {
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fill,minmax(180px,1fr));
+    gap:25px;
+}
+.artist-card {
+    text-align:center;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:
+    0 3px 10px rgba(0,0,0,0.08);
+}
+.artist-avatar-box {
+    width:120px;
+    height:120px;
+    margin:auto;
+    overflow:hidden;
+    border-radius:50%;
+}
+.artist-avatar-box img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.artist-card h3 {
+    margin:15px 0;
+}
+/*歌手详情*/
+.artist-detail-header {
+    display:flex;
+    gap:35px;
+    align-items:flex-start;
+}
+.artist-detail-avatar-box {
+    width:220px;
+    height:220px;
+    overflow:hidden;
+    border-radius:50%;
+    flex-shrink:0;
+}
+.artist-detail-avatar {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.artist-etail-info h2 {
+    font-size:30px;
+    margin-top:0;
+}
+.artist-detail-info p {
+    line-height:1.8;
+    color:#555;
+}
+.section-title {
+    margin-top:40px;
+}
+.artist-song-list {
+    display:grid;
+    grid-template-columns:
+    repeat(2,1fr);
+    gap:15px;
+}
+.artist-song-item {
+    display:flex;
+    align-items:center;
+    background:#fafafa;
+    padding:12px;
+    border-radius:10px;
+}
+.mini-cover {
+    width:60px;
+    height:60px;
+    overflow:hidden;
+    border-radius:6px;
+    margin-right:15px;
+}
+.mini-cover img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+/*搜索页面*/
+.search-form {
+    margin-bottom:30px;
+}
+.search-input {
+    width:300px;
+    padding:10px 15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+.search-type {
+    margin:15px 0;
+}
+.search-type label {
+    margin-right:20px;
+}
+.search-results {
+    display:grid;
+    grid-template-columns:
+    repeat(2,1fr);
+    gap:15px;
+}
+.search-card {
+    display:flex;
+    align-items:center;
+    background:#fafafa;
+    padding:12px;
+    border-radius:10px;
+}
+.search-card a {
+    margin-left:20px;
+    font-size:18px;
+}
+.search-cover {
+    width:70px;
+    height:70px;
+    overflow:hidden;
+    border-radius:6px;
+}
+.search-cover img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+.search-avatar {
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    overflow:hidden;
+}
+.search-avatar img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}

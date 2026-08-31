@@ -6,24 +6,30 @@
 <h2>
     搜索音乐资源
 </h2>
-<form method="get">
+<form method="get" class="search-form">
     <input
-    type="text",
-    name="keyword",
-    placeholder="请输入关键词">
-    <br><br>
-    <input
-    type="radio"
-    name="type"
-    value="song"
-    checked>
-    搜索歌曲
-    <input
-    type="radio"
-    name="type"
-    value="artist">
-    搜索歌手
-    <br><br>
+    type="text"
+    name="keyword"
+    placeholder="请输入关键词"
+    value="{{keyword}}"
+    class="search-input">
+    <div class="search-type">
+        <label>
+            <input
+            type="radio"
+            name="type"
+            value="song"
+            checked>
+            搜索歌曲
+        </label>
+        <label>
+            <input
+            type="radio"
+            name="type"
+            value="artist">
+            搜索歌手
+        </label>
+    </div>
     <button type="submit">
         搜索
     </button>
@@ -42,32 +48,30 @@
 <p>
     搜索耗时：{{cost}}秒
 </p>
-<div>
+<div class="search-results">
     {% for item in results %}
     {% if type == "song" %}
-    <div>
-    <img
-    src="{{ item.cover_url }}"
-    width="100">
+    <div class="search-card">
+    <div class="search-cover">
+        <img src="{{ item.cover_url }}">
+    </div>
     <a href="/song/{{ item.song_id }}/">
         {{ item.song_name }}
     </a>
-    </div>
+</div>
 <hr>
 {% else %}
-<div>
-    <img
-    src="{{ item.artist_image }}"
-    width="100">
-    <a href="/artist/{{ item.artist_id }}/">
-    {{ item.artist_name }}
-    </a>
+<div class="search-card">
+    <div class="search-avatar">
+        <img src="{{ item.artist_image }}">
     </div>
-    <hr>
+    <a href="/artist/{{ item.artist_id }}/">
+        {{ item.artist_name }}
+    </a>
     {% endif %}
     {% endfor %}
 </div>
-<div>
+<div class="pagination">
     {% if page > 1 %}
     <a href="?keyword={{keyword}}&type={{type}}&page=1">
         首页
