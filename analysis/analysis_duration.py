@@ -9,7 +9,6 @@ df = pd.DataFrame(data)
 #判断是否为纯音乐
 df["is_instrumental"] = df["lyric"].str.contains("纯音乐", na=False)
 #转换歌曲时长
-#转换时间
 df["duration_min"] = (df["duration"]/1000/60)
 #将true/false转换成歌曲类型
 df["song_type"] = df["is_instrumental"].map({

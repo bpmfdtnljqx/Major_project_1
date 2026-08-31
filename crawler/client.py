@@ -110,7 +110,7 @@ def get_artistintro(artist_id):
     return "\n\n".join(parts)
 
 def get_artistlist(page):
-    "按分类获取歌手目录"
+    "按分页获取歌手目录"
     params = {
         "limit" : DEFAULT_ARTISTLIST,
         "offset" : (page-1)*DEFAULT_ARTISTLIST

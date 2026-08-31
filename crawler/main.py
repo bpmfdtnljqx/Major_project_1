@@ -52,6 +52,7 @@ def discover_artists():
                 break
             data = get_songs(keyword,page)
             song_list = (data.get("result", {}).get("songs", []))
+            #根据歌曲爬歌手
             for song in song_list:
                 if len(artists_result) >= ARTIST_TARGET:
                     break

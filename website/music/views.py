@@ -122,7 +122,7 @@ def artist_detail(request,artist_id):
             "artist_name" : artist_name,
             "artist_image" : "",
             "artist_intro" : "这个人很神秘，但希望ta的歌声可以打动你",
-            "artsit_url" : ""
+            "arist_url" : ""
         }
     artist_songs = []
     for song in songs:
@@ -137,6 +137,7 @@ def search(request):
     #获取搜索类型
     search_type = request.GET.get("type","song")
     results = []
+    #一开始计算后端计时，后来发现用不到了，但考虑到不破坏原有结构未删除
     cost = 0
     if keyword:
         if search_type == "song":

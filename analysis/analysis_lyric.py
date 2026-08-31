@@ -77,6 +77,7 @@ for artist_names in df["artist_names"].dropna():
         artist = artist.strip()
         if artist:
             stop_words.add(artist)
+
 #歌词分词函数
 def tokenize_lyric(lyric):
     words = jieba.lcut(str(lyric))
@@ -103,6 +104,7 @@ def tokenize_lyric(lyric):
             continue
         result.append(word)
     return result
+
 #对每首歌曲进行分词
 song_words = []
 for lyric in df["lyric"]:
