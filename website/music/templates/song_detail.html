@@ -6,7 +6,7 @@
 <div class="song-detail-header">
     <div class="detail-cover">
         <img
-        src="{{ song.cover_url }}"
+        src="{{ song.cover_url | default:'/ststic/images/default_song.webp' }}"
         class="song-detail-cover">
     </div>
     <div class="detail-info">
