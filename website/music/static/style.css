@@ -305,3 +305,17 @@ button:hover,
     height:100%;
     object-fit:cover;
 }
+/*页面跳转*/
+.page-jump {
+    display:inline-block;
+    margin-left:20px;
+}
+.page-jump input {
+    width:60px;
+    padding:6px;
+    border-radius:6px;
+    border:1px solid #ddd;
+}
+.page-jump button {
+    padding:7px 12px;
+}

@@ -48,6 +48,25 @@
 <a href="?page={{total_pages}}">
 尾页
 </a>
-{% endif %}
+<form method="get" class="page-jump">
+    <input 
+    type="hidden"
+    name="keyword"
+    value="{{keyword}}">
+    <input 
+    type="hidden"
+    name="type"
+    value="{{type}}">
+    <input 
+    type="number"
+    name="page"
+    min="1"
+    max="{{total_page}}"
+    placeholder="页码">
+    <button type="submit">
+        跳转
+    </button>
+    </form>
+    {% endif %}
 </div>
 {% endblock %}
