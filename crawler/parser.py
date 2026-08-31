@@ -46,6 +46,6 @@ def parse_artist(artist):
 
 def clean_lyric(raw_lyric):
     """将原始歌词的时间清洗"""
-    cleaned_lyric = re.sub(r'\[\d{2}:\d{2}(?:\.\d{1,3})?\]','',raw_lyric)
+    cleaned_lyric = re.sub(r'\[\d{2}:\d{2}(?:[:.,]\d{1,3})?(?:-\d+)?\]','',raw_lyric)
     cleaned_lyric = re.sub(r'\n\s*\n+','\n',cleaned_lyric)
     return cleaned_lyric.strip()

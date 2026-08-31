@@ -17,5 +17,7 @@ urlpatterns = [
     #评论
     path('song/<int:song_id>/comment/',views.add_comment,name='add_comment'),
     #评论删除
-    path('comment/<int:comment_id>/delete/',views.delete_comment,name='delete_comment')
+    path('comment/<int:comment_id>/delete/',views.delete_comment,name='delete_comment'),
+    #耗时
+    path('search_time/',views.search_time)
 ]

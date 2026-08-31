@@ -1,9 +1,11 @@
-import time
+import json
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from music.data_loader import load_artists,load_songs
 from math import ceil
 from music.comment_loader import load_comment,save_comment
 from datetime import datetime
+
 def artist_list(request):
     #加载歌手数据
     artists = load_artists()
@@ -137,22 +139,50 @@ def search(request):
     results = []
     cost = 0
     if keyword:
-        start = time.time()
         if search_type == "song":
             songs = load_songs()
             for song in songs:
-                if(keyword in song["song_name"]
-                   or keyword in song["artist_names"]
-                   or keyword in song["lyric"]):
-                    results.append(song)
+                score = 0
+                song_name = song.get("song_name","")
+                artist_names = song.get("artist_names","")
+                lyric = song.get("lyric","")
+                # 歌曲名匹配
+                if keyword == song_name:
+                    score += 100
+                elif keyword in song_name:
+                    score += 80
+                # 歌手匹配
+                if keyword in artist_names:
+                    score += 60
+                # 歌词匹配
+                if keyword in lyric:
+                    score += 40
+                if score > 0:
+                    results.append({
+                            "data": song,
+                            "score": score
+                        })
+            results.sort(key=lambda x:x["score"],reverse=True)
         elif search_type == "artist":
             artists = load_artists()
             for artist in artists:
-                if(keyword in artist["artist_name"]
-                   or keyword in artist["artist_intro"]):
-                    results.append(artist)
-        end = time.time()
-        cost = end - start
+                score = 0
+                artist_name = artist.get("artist_name","")
+                artist_intro = artist.get("artist_intro","")
+                # 歌手名匹配
+                if keyword == artist_name:
+                    score += 100
+                elif keyword in artist_name:
+                    score += 80
+                # 简介匹配
+                if keyword in artist_intro:
+                    score += 40
+                if score > 0:
+                    results.append({
+                            "data": artist,
+                            "score": score
+                        })
+            results.sort(key=lambda x:x["score"],reverse=True)
     per_page = 20
     page = request.GET.get("page",1)
     try:
@@ -204,3 +234,15 @@ def delete_comment(request,comment_id):
                 new_comments.append(comment)
         save_comment(new_comments)
     return redirect(f"/song/{song_id}")
+
+def search_time(request):
+    data=json.loads(
+        request.body
+    )
+    cost=data.get("cost")
+    print(
+        f"用户端搜索耗时:{cost:.3f}秒"
+    )
+    return JsonResponse({
+        "status":"ok"
+    })

@@ -6,7 +6,10 @@
 <h2>
     搜索音乐资源
 </h2>
-<form method="get" class="search-form">
+<form 
+method="get" 
+class="search-form"
+onsubmit="saveSearchTime()">
     <input
     type="text"
     name="keyword"
@@ -40,36 +43,39 @@
     搜索结果
 </h3>
 <p>
-    关键词：{{keyword}}
-</p>
-<p>
     搜索到{{count}}条结果
 </p>
-<p>
-    搜索耗时：{{cost}}秒
-</p>
 <div class="search-results">
+{% if type == "song" %}
     {% for item in results %}
-    {% if type == "song" %}
     <div class="search-card">
-    <div class="search-cover">
-        <img src="{{ item.cover_url }}">
+        <div class="search-cover">
+            <img src="{{ item.data.cover_url }}">
+        </div>
+        <a href="/song/{{ item.data.song_id }}/">
+            {{ item.data.song_name }}
+        </a>
     </div>
-    <a href="/song/{{ item.song_id }}/">
-        {{ item.song_name }}
-    </a>
-</div>
-<hr>
-{% else %}
-<div class="search-card">
-    <div class="search-avatar">
-        <img src="{{ item.artist_image }}">
-    </div>
-    <a href="/artist/{{ item.artist_id }}/">
-        {{ item.artist_name }}
-    </a>
-    {% endif %}
     {% endfor %}
+{% else %}
+<div class="artist-list">
+    {% for item in results %}
+    <div class="artist-card">
+        <a href="/artist/{{item.data.artist_id}}/">
+            <div class="artist-avatar-box">
+                <img
+                src="{{item.data.artist_image}}"
+                alt="{{item.data.artist_name}}">
+
+            </div>
+            <h3>
+                {{item.data.artist_name}}
+            </h3>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 </div>
 <div class="pagination">
     {% if page > 1 %}
@@ -112,4 +118,39 @@
     {% endif %}
 </div>
 {% endif %}
+<script>
+function saveSearchTime(){
+    sessionStorage.setItem(
+        "search_start_time",
+        Date.now()
+    );
+}
+window.onload=function(){
+    let start =
+    sessionStorage.getItem(
+        "search_start_time"
+    );
+    if(start){
+        let cost =
+        (Date.now()-start)/1000;
+        fetch(
+            "/search_time/",
+            {
+                method:"POST",
+                headers:{
+                    "X-CSRFToken":
+                    "{{ csrf_token }}"
+                },
+                body:
+                JSON.stringify({
+                    cost:cost
+                })
+            }
+        );
+        sessionStorage.removeItem(
+            "search_start_time"
+        );
+    }
+}
+</script>
 {% endblock %}

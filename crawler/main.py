@@ -75,6 +75,8 @@ def fill_artistdetail(artists):
     for artist in artists:
         artist_id = artist["artist_id"]
         try:
+            detail = get_artistdetail(artist_id)
+            artist["artist_image"] = detail.get("picUrl","")
             intro = get_artistintro(artist_id)
             if not intro or len(intro.strip()) < 10:
                 print(f"跳过歌手：{artist['artist_name']}",flush=True)
